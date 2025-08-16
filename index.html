@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>أركيلينو | تأجير أراكيل</title>
+  <meta name="theme-color" content="#0e7a6d">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <meta name="description" content="متجر إلكتروني لتأجير الأراكيل | أركيلينو">
+  <style>
+    :root{
+      --bg:#081614; --card:#0e2622; --text:#f2fffa; --muted:#a9e0d3;
+      --g1:#11a58f; --g2:#0ed0b6; --br:#1f5e54; --accent:#e0ff57;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:system-ui,Segoe UI,Roboto,"Noto Kufi Arabic",sans-serif}
+    a{color:inherit;text-decoration:none}
+    .container{max-width:980px;margin:0 auto;padding:16px}
+    header{position:sticky;top:0;background:linear-gradient(180deg,#081614,rgba(8,22,20,.7));backdrop-filter:blur(6px);z-index:10;border-bottom:1px solid var(--br)}
+    header .row{display:flex;align-items:center;gap:12px;padding:12px 0}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.5px;user-select:none;cursor:default}
+    .logo{width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,var(--g1),var(--g2));display:grid;place-items:center;color:#022a24;font-weight:900}
+    .pill{background:linear-gradient(135deg,rgba(17,165,143,.15),rgba(14,208,182,.1));color:var(--muted);border:1px solid var(--br);border-radius:14px;padding:10px 12px;display:flex;align-items:center;gap:8px;cursor:pointer}
+    .grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+    .card{background:linear-gradient(180deg,rgba(17,165,143,.08),rgba(14,208,182,.04));border:1px solid var(--br);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 6px 22px rgba(0,0,0,.25)}
+    .card img{width:100%;aspect-ratio:1/1;object-fit:cover}
+    .card .p{padding:12px}
+    .title{font-weight:800;margin:0 0 6px}
+    .muted{color:var(--muted);font-size:.95rem}
+    .row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+    button{all:unset;display:inline-grid;place-items:center;border-radius:14px;padding:11px 14px;background:linear-gradient(135deg,var(--g1),var(--g2));color:#022a24;font-weight:900;border:1px solid var(--br);cursor:pointer;transition:.2s;min-width:44px}
+    button:hover{transform:translateY(-1px)}
+    .ghost{background:linear-gradient(135deg,rgba(17,165,143,.18),rgba(14,208,182,.14));color:var(--muted)}
+    .danger{background:linear-gradient(135deg,#a83c3c,#8d2b2b);color:#fff;border-color:#a54747}
+    .footer{margin:30px 0 60px;color:#9ad9cc;text-align:center}
+    .section{margin:20px 0}
+    .input, select, textarea{background:#0a1e1b;color:var(--text);border:1px solid var(--br);border-radius:14px;padding:11px 12px;width:100%}
+    .badge{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,rgba(17,165,143,.2),rgba(14,208,182,.15));border:1px solid var(--br);border-radius:999px;padding:7px 12px;color:var(--text);font-weight:700}
+    .total{font-size:1.15rem;font-weight:900}
+    .hidden{display:none !important}
+    .toast{position:fixed;inset-inline:0;bottom:14px;display:grid;place-items:center;z-index:99}
+    .toast .box{background:#072321;border:1px solid #124b45;color:#c3fff3;padding:12px 16px;border-radius:12px}
+    /* Fullscreen Cart Modal */
+    .modal{position:fixed;inset:0;display:none;background:rgba(0,0,0,.5);z-index:60}
+    .modal.open{display:block}
+    .sheet{position:absolute;inset:0;background:#0b1a17}
+    .sheet header{position:sticky;top:0;background:linear-gradient(180deg,#0b1a17,#0d211d);border-bottom:1px solid var(--br);z-index:1}
+    .list{padding:12px;display:flex;flex-direction:column;gap:12px;overflow:auto;max-height:calc(100vh - 220px)}
+    .line{display:flex;gap:12px;border:1px solid var(--br);border-radius:14px;padding:10px;background:linear-gradient(180deg,rgba(17,165,143,.08),rgba(14,208,182,.03))}
+    .line img{width:70px;height:70px;object-fit:cover;border-radius:12px}
+    .spacer{flex:1}
+    /* Admin */
+    .adm{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.45);z-index:70}
+    .adm .panel{background:#0d201d;border:1px solid var(--br);border-radius:16px;padding:16px;max-width:900px;width:94vw;max-height:90vh;overflow:auto}
+    /* Notifications */
+    .bell{position:relative}
+    .dot{position:absolute;top:-2px;inset-inline-end:-2px;width:9px;height:9px;border-radius:999px;background:var(--accent);display:none}
+    .bell.has .dot{display:block}
+    .notif{position:fixed;top:64px;inset-inline:0;display:none;z-index:65}
+    .notif.open{display:block}
+    .notif .wrap{max-width:520px;margin:0 auto;background:#0c201d;border:1px solid var(--br);border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.4);overflow:hidden}
+    .notif header{padding:10px 12px;border-bottom:1px solid var(--br);display:flex;align-items:center;gap:10px;background:#0d241f}
+    .notif .body{padding:12px;max-height:60vh;overflow:auto}
+    /* Chat FAB */
+    .fab{position:fixed;bottom:18px;inset-inline-start:18px;z-index:66}
+    .fab button{border-radius:999px;width:56px;height:56px;box-shadow:0 8px 22px rgba(0,0,0,.35)}
+    .chat{position:fixed;inset:0;display:none;background:rgba(0,0,0,.4);z-index:67}
+    .chat .box{position:absolute;inset:auto 12px 12px auto;width:min(420px,90%);background:#0c1f1c;border:1px solid var(--br);border-radius:16px;display:flex;flex-direction:column;max-height:80vh}
+    .chat .head{padding:10px 12px;border-bottom:1px solid var(--br);display:flex;align-items:center;gap:10px;background:#0d241f}
+    .chat .msgs{padding:12px;display:flex;flex-direction:column;gap:8px;overflow:auto}
+    .msg{max-width:80%;padding:10px 12px;border-radius:14px;border:1px solid var(--br)}
+    .me{align-self:flex-end;background:linear-gradient(135deg,var(--g1),var(--g2));color:#022a24}
+    .them{align-self:flex-start;background:#0b1e1a}
+    main.disabled, header.disabled { pointer-events:none; opacity:.6; }
+  </style>
+</head>
+<body>
+<header>
+  <div class="container row">
+    <div id="brand" class="brand"><div class="logo">AR</div> أركيلينو</div>
+    <div style="flex:1"></div>
+    <div id="notifyBtn" class="bell pill">🔔<span class="dot"></span></div>
+    <button id="btnInstall" class="ghost">تثبيت</button>
+    <div id="cartBtn" class="pill">🛒 <span id="cartCount">0</span></div>
+  </div>
+</header>
+
+<!-- Fullscreen Cart -->
+<div id="cartModal" class="modal" aria-hidden="true">
+  <div class="sheet">
+    <header><div class="container row"><strong>السلة</strong><div class="spacer"></div><button id="closeCart" class="ghost">×</button></div></header>
+    <div id="cartItems" class="list"></div>
+    <div class="container">
+      <div class="row">
+        <div class="total">المجموع: <span id="total">0</span> د.ع</div>
+        <button class="danger" id="clearCart">مسح</button>
+      </div>
+      <hr style="border-color:#124b45;opacity:.4;margin:12px 0">
+      <h3 style="margin:6px 0">معلومات الزبون</h3>
+      <div class="row" style="gap:10px;flex-wrap:wrap">
+        <input id="custName" class="input" placeholder="الاسم الكامل">
+        <input id="custPhone" class="input" placeholder="رقم الهاتف (مثال 9647XXXXXXXX)">
+        <input id="custAddr" class="input" placeholder="العنوان (منطقة/محلة)">
+      </div>
+      <button id="checkout" style="width:100%;margin-top:10px">تأكيد الحجز</button>
+    </div>
+  </div>
+</div>
+
+<!-- Notifications Center -->
+<div id="notif" class="notif">
+  <div class="wrap">
+    <header><strong>الإشعارات</strong><div class="spacer"></div><button id="notifClose" class="ghost">إغلاق</button></header>
+    <div class="body" id="notifBody"></div>
+  </div>
+</div>
+
+<!-- Admin (hidden entry) -->
+<div id="adminModal" class="adm">
+  <div class="panel">
+    <div class="row" style="margin-bottom:10px">
+      <strong>لوحة الإدارة</strong>
+      <div class="spacer"></div>
+      <button id="closeAdmin" class="ghost">إغلاق ×</button>
+    </div>
+    <div class="row" style="gap:6px;flex-wrap:wrap;margin-bottom:12px">
+      <button class="ghost" data-tab="tabProducts">المنتجات</button>
+      <button class="ghost" data-tab="tabOrders">الطلبات</button>
+      <button class="ghost" data-tab="tabChat">الدردشة</button>
+      <button class="ghost" data-tab="tabSettings">الإعدادات</button>
+    </div>
+
+    <div id="tabProducts">
+      <h3>إضافة/تعديل منتج</h3>
+      <div class="grid2">
+        <input id="pTitle" class="input" placeholder="اسم المنتج">
+        <input id="pPrice" class="input" placeholder="السعر/يوم (د.ع)" type="number">
+        <input id="pCat" class="input" placeholder="الصنف (مثال: كلاسيك، ستيل)">
+        <input id="pImg" class="input" placeholder="رابط الصورة (أو ارفع)">
+        <input id="pImgFile" class="input" type="file" accept="image/*">
+      </div>
+      <div style="margin-top:10px">
+        <strong>إضافات المنتج</strong>
+        <div id="extrasBox"></div>
+        <button id="addExtra" class="ghost" style="margin-top:8px">+ إضافة</button>
+      </div>
+      <div class="row" style="margin-top:12px">
+        <button id="addProduct">حفظ المنتج</button>
+      </div>
+      <h3 style="margin-top:18px">قائمة المنتجات</h3>
+      <div id="adminProdList" class="grid2"></div>
+    </div>
+
+    <div id="tabOrders" class="hidden">
+      <h3>الطلبات</h3>
+      <div id="ordersList" class="list"></div>
+    </div>
+
+    <div id="tabChat" class="hidden">
+      <h3>الدردشات</h3>
+      <div id="chatsList" class="list"></div>
+    </div>
+
+    <div id="tabSettings" class="hidden">
+      <h3>الإعدادات</h3>
+      <div class="grid2">
+        <input id="adminPIN" class="input" placeholder="PIN الإدارة">
+        <input id="syncUrl" class="input" placeholder="SYNC URL (اختياري لمزامنة كل الزبائن)">
+      </div>
+      <div class="row" style="margin-top:10px">
+        <button id="saveSettings">حفظ الإعدادات</button>
+      </div>
+      <p class="muted">إذا حطّيت SYNC URL نقدر نزامن المنتجات/الطلبات/الدردشة بين كل الأجهزة (REST بسيط).</p>
+    </div>
+  </div>
+</div>
+
+<main class="container">
+  <section class="section">
+    <h2 style="margin:0 0 10px">المنتجات</h2>
+    <div id="products" class="grid2"></div>
+  </section>
+
+  <div class="footer">محمد عصام - lii16</div>
+</main>
+
+<!-- Chat FAB -->
+<div class="fab"><button id="openChat">💬</button></div>
+<div id="chat" class="chat">
+  <div class="box">
+    <div class="head"><strong>دردشة الدعم</strong><div class="spacer"></div><button id="chatClose" class="ghost">×</button></div>
+    <div id="chatMsgs" class="msgs"></div>
+    <div style="padding:10px;border-top:1px solid var(--br);display:flex;gap:8px">
+      <input id="chatInput" class="input" placeholder="اكتب رسالتك...">
+      <button id="chatSend">إرسال</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden"><div class="box"></div></div>
+
+<script type="module" src="app.js"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', ()=>{
+      navigator.serviceWorker.register('service-worker.js');
+    });
+  }
+</script>
+</body>
+</html>
